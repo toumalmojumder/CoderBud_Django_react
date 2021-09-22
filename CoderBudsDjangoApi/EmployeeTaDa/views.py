@@ -27,7 +27,7 @@ def EmployeeNameApi(request,id=0):
     
     elif request.method=='PUT':
         employeeName_data = JSONParser().parse(request)
-        employeeName=EmployeeName.objects.get(EmployeeId=employeeName_data['employeeName_data'])
+        employeeName=EmployeeName.objects.get(EmployeeId=employeeName_data['EmployeeId'])
         employeeName_serializer=EmployeeNameSerializer(employeeName,data=employeeName_data)
         if employeeName_serializer.is_valid():
             employeeName_serializer.save()
