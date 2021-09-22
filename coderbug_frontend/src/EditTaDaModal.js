@@ -6,20 +6,24 @@ export class EditTaDaModal extends Component{
         super(props);
         this.state={emps:[],paids:[]}
         this.handleSubmit=this.handleSubmit.bind(this);
+        
     }
 
-    componentDidMount(){
-        fetch(process.env.REACT_APP_API+'employeename')
-        .then(response=>response.json())
-        .then(data=>{
-            this.setState({emps:data});
-        });
+    
 
+    componentDidMount(){
+    
+            fetch(process.env.REACT_APP_API+'employeename')
+            .then(response=>response.json())
+            .then(data=>{
+                this.setState({emps:data});
+            });
         fetch(process.env.REACT_APP_API+'paid')
         .then(response=>response.json())
         .then(data=>{
             this.setState({paids:data});
         });
+       
     }
 
 

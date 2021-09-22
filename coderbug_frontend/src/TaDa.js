@@ -8,8 +8,9 @@ export class TaDa extends Component{
 
     constructor(props){
         super(props);
-        this.state={tadas:[],emps:[], addModalShow:false, editModalShow:false, editModalShow:false}
+        this.state={tadas:[],addModalShow:false, editModalShow:false, editModalShow:false}
     }
+
     refreshList(){
         fetch(process.env.REACT_APP_API+'tada')
         .then(response=>response.json())
@@ -17,11 +18,6 @@ export class TaDa extends Component{
             this.setState({tadas:data});
         });
 
-        fetch(process.env.REACT_APP_API+'employeename')
-        .then(response=>response.json())
-        .then(data=>{
-            this.setState({emps:data});
-        });
     }
 
     componentDidMount(){
@@ -48,6 +44,7 @@ export class TaDa extends Component{
 
 
         return(
+    
             <div>
                 <Table className="mt-4" striped bordered hover size="sm">
                     <thead>
@@ -57,6 +54,7 @@ export class TaDa extends Component{
                         <th>Travel cost</th>
                         <th>Lunch cost</th>
                         <th>Instruments cost</th>
+                        <th>Total Cost</th>
                         <th>Paid</th>
                         <th>Options</th>
 
@@ -71,6 +69,9 @@ export class TaDa extends Component{
                                 <td>{tada.travel_cost}</td>
                                 <td>{tada.lunch_cost}</td>
                                 <td>{tada.instruments_cost}</td>
+                                <td> 
+                                { parseInt(tada.travel_cost) + parseInt(tada.lunch_cost) + parseInt(tada.instruments_cost)}
+                                </td>
                                 <td>{tada.paid}</td>
 
                                 <td >
