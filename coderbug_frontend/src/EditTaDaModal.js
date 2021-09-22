@@ -4,20 +4,42 @@ import {Modal,Button, Row, Col, Form} from 'react-bootstrap';
 export class EditTaDaModal extends Component{
     constructor(props){
         super(props);
+        this.state={emps:[],paids:[]}
         this.handleSubmit=this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        fetch(process.env.REACT_APP_API+'employeename')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({emps:data});
+        });
+
+        fetch(process.env.REACT_APP_API+'paid')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({paids:data});
+        });
+    }
+
+
     handleSubmit(event){
         event.preventDefault();
-        fetch(process.env.REACT_APP_API+'employeename/',{
+        fetch(process.env.REACT_APP_API+'tada/',{
             method:'PUT',
             headers:{
                 'Accept':'application/json',
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                EmployeeId:event.target.EmployeeId.value,
-                EmployeeName:event.target.EmployeeName.value
+                Id:event.target.Id.value,
+                date:event.target.date.value,
+                employee_name:event.target.employee_name.value,
+                travel_cost:event.target.travel_cost.value,
+                lunch_cost:event.target.lunch_cost.value,
+                instruments_cost:event.target.instruments_cost.value,
+                paid:event.target.paid.value,
+
             })
         })
         .then(res=>res.json())
@@ -25,9 +47,10 @@ export class EditTaDaModal extends Component{
             alert(result);
         },
         (error)=>{
-            alert('Failed');
+            alert('Failed '+ error);
         })
     }
+
     render(){
         return (
             <div className="container">
@@ -40,7 +63,7 @@ centered
 >
     <Modal.Header clooseButton>
         <Modal.Title id="contained-modal-title-vcenter">
-            Edit Employee
+            Edit TADA Bill
         </Modal.Title>
     </Modal.Header>
     <Modal.Body>
@@ -48,27 +71,73 @@ centered
         <Row>
             <Col sm={6}>
                 <Form onSubmit={this.handleSubmit}>
-                <Form.Group controlId="EmployeeId">
-                        <Form.Label>EmployeeId</Form.Label>
-                        <Form.Control type="text" name="EmployeeId" required 
+                <Form.Group controlId="Id">
+                        <Form.Label>Id</Form.Label>
+                        <Form.Control type="text"  name="Id" required 
+                        placeholder="Id"
                         disabled
-                        defaultValue = {this.props.empid}
-                        placeholder="EmployeeId"/>
+                        defaultValue={this.props.tadaid}
+                        />
                     </Form.Group>
-                    <Form.Group controlId="EmployeeName">
-                        <Form.Label>EmployeeName</Form.Label>
-                        <Form.Control type="text" name="EmployeeName" required
-                        defaultValue = {this.props.empname} 
-                        placeholder="EmployeeName"/>
+                <Form.Group controlId="date">
+                        <Form.Label>Date</Form.Label>
+                        <Form.Control 
+                        type="date"
+                        name="date"
+                        required
+                        placeholder="Date"
+                        defaultValue={this.props.date}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="employee_name">
+                        <Form.Label>Employee Name</Form.Label>
+                        <Form.Control as="select" defaultValue={this.props.tadaname}>
+                        {this.state.emps.map(emp=>
+                            <option key={emp.EmployeeId}>{emp.EmployeeName}</option>)}
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="travel_cost">
+                        <Form.Label>Travel cost</Form.Label>
+                        <Form.Control type="number" pattern="^\d*(\.\d{0,2})?$" name="travel_cost" required 
+                        placeholder="travel_cost"
+                        defaultValue={this.props.travel}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="lunch_cost">
+                        <Form.Label>Lunch Cost</Form.Label>
+                        <Form.Control type="number" pattern="^\d*(\.\d{0,2})?$" name="lunch_cost" required 
+                        placeholder="lunch_cost"
+                        defaultValue={this.props.lunch}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="instruments_cost">
+                        <Form.Label>Instruments Cost</Form.Label>
+                        <Form.Control type="number" pattern="^\d*(\.\d{0,2})?$" name="instruments_cost" required 
+                        placeholder="instruments_cost"
+                        defaultValue={this.props.instrument}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="paid">
+                        <Form.Label>paid</Form.Label>
+                        <Form.Control as="select" defaultValue={this.props.paid}>
+                        {this.state.paids.map(paid=>
+                            <option key={paid.PaidId}>{paid.Paid}</option>)}
+                        </Form.Control>
                     </Form.Group>
 
                     <Form.Group>
-                        <Button variant="primary" type="submit">
-                            Update Employee
+                        <Button  variant="primary" type="submit">
+                            Update TADA Bill
                         </Button>
                     </Form.Group>
                 </Form>
             </Col>
+            
         </Row>
     </Modal.Body>
     

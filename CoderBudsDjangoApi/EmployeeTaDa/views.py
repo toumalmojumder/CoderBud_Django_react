@@ -56,7 +56,7 @@ def PaidApi(request,id=0):
     
     elif request.method=='PUT':
         paid_data = JSONParser().parse(request)
-        paid=Paid.objects.get(PaidId=paid_data['paid_data'])
+        paid=Paid.objects.get(PaidId=paid_data['PaidId'])
         paid_serializer=PaidSerializer(paid,data=paid_data)
         if paid_serializer.is_valid():
             paid_serializer.save()
@@ -85,8 +85,8 @@ def TADAApi(request,id=0):
     
     elif request.method=='PUT':
         tada_data = JSONParser().parse(request)
-        tada=TADA.objects.get(Id=tada_data['tada_data'])
-        tada_serializer=PaidSerializer(tada,data=tada_data)
+        tada=TADA.objects.get(Id=tada_data['Id'])
+        tada_serializer=TADASerializer(tada,data=tada_data)
         if tada_serializer.is_valid():
             tada_serializer.save()
             return JsonResponse("Updated Successfully!!", safe=False)
