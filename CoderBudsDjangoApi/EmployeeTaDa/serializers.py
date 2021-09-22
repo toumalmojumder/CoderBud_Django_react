@@ -18,7 +18,7 @@ class TADASerializer(serializers.ModelSerializer):
     class Meta:
         model = TADA
         fields = ('Id',
-                  'Date'
+                  'date',
                   'employee_name',
                   'travel_cost',
                   'lunch_cost',

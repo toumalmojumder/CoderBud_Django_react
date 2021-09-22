@@ -13,11 +13,12 @@ class Paid(models.Model):
     
 
 class TADA(models.Model):
+    Id = models.AutoField(primary_key=True)
     date = models.DateField()
-    employee_name = models.ForeignKey(EmployeeName,on_delete=models.CASCADE)
+    employee_name = models.CharField(max_length=100)
     travel_cost = models.DecimalField(max_digits=6, decimal_places=2)
     lunch_cost = models.DecimalField(max_digits=6, decimal_places=2)
     instruments_cost = models.DecimalField(max_digits=6, decimal_places=2)
-    paid = models.ForeignKey(Paid,on_delete=models.CASCADE)
+    paid = models.CharField(max_length=100)
 
 
